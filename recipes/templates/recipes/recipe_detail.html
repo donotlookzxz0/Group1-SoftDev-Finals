@@ -1,0 +1,28 @@
+{% extends "recipes/base.html" %}
+{% block content %}
+<div class="card my-2 col-8">
+  <div class="row g-0">
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ object.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ object.author }}</h6>
+        <p class="card-text">{{ object.description|linebreaks|urlize }}</p>
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ object.updated_at|date:"F d, Y" }}
+        </h6>
+      </div>
+    </div>
+    {% if object.image %}
+    <div class="col-md-3 d-flex align-items-center justify-content-center">
+      <img src="{{ object.image.url }}" class="img-fluid img-thumbnail" style="max-width: 300px; height: auto; object-fit: cover;" alt="{{ object.title }}">
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% if object.author == user or user.is_staff %}
+<div class="col-4">
+    <a class="btn btn-outline-info" href="{% url 'recipes-update' object.id %}">Update</a>
+    <a class="btn btn-outline-danger" href="{% url 'recipes-delete' object.id %}">Delete</a>
+</div>
+{% endif %}
+{% endblock content %}
